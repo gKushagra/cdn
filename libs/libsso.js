@@ -1,11 +1,11 @@
-export function libSSO() {
-    const redirect = function (callbackUri) {
+export const libSSO = {
+    redirect: function (callbackUri) {
         let link = document.createElement('a');
         link.href = decodeURIComponent('https%3A%2F%2Fsso.opensourcedit.com%2Fauth%2Flogin%3FredirectUri%3D')
             + callbackUri;
         link.click();
-    }
-    const verify = function (token, redirectUri) {
+    },
+    verify: function (token, redirectUri) {
         if (token && token != '') {
             fetch(decodeURIComponent('https%3A%2F%2Fsso.opensourcedit.com%2Fauth') + redirectUri, {
                 headers: { 'Authorization': 'Bearer ' + token }
@@ -24,8 +24,8 @@ export function libSSO() {
                     localStorage.removeItem('sf-token');
                 });
         }
-    }
-    const login = function (redirectUri) {
+    },
+    login: function (redirectUri) {
         const token = localStorage.getItem('sf-token');
         if (token && token != '') { verify(token, redirectUri); }
         else {
