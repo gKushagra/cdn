@@ -11,7 +11,7 @@ export const libSSO = {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
                 .then(function (response) {
-                    if (response.status === 401) { redirect(redirectUri); }
+                    if (response.status === 401) { this.redirect(redirectUri); }
                     else { return response.text(); }
                 })
                 .then(function (data) {
@@ -27,15 +27,15 @@ export const libSSO = {
     },
     login: function (redirectUri) {
         const token = localStorage.getItem('sf-token');
-        if (token && token != '') { verify(token, redirectUri); }
+        if (token && token != '') { this.verify(token, redirectUri); }
         else {
             const queryParams = new URLSearchParams(window.location.search);
             const authToken = queryParams.get('token');
             if (authToken && authToken !== '') {
                 localStorage.setItem('sf-token', authToken);
-                verify(authToken, redirectUri);
+                this.verify(authToken, redirectUri);
             }
-            else { redirect(redirectUri); }
+            else { this.redirect(redirectUri); }
         }
     }
 }
