@@ -7,9 +7,12 @@ export const libSSO = {
     },
     verify: function (token, redirectUri) {
         if (token && token != '') {
-            fetch(decodeURIComponent('https%3A%2F%2Fsso.opensourcedit.com%2Fauth') + redirectUri, {
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
+            fetch(
+                decodeURIComponent('https%3A%2F%2Fsso.opensourcedit.com%2Fauth%2Fverify%3FredirectUri%3D')
+                + redirectUri,
+                {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
                 .then(function (response) {
                     if (response.status === 401) { this.redirect(redirectUri); }
                     else { return response.text(); }
