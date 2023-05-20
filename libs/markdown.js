@@ -5,7 +5,7 @@
 export function MarkdownEditor() {
     let textarea = document.querySelector('#input-area');
     let outputArea = document.querySelector('#output-area');
-    let previewMessage = document.querySelector('.preview-message');
+    let previewMessage = document.querySelector('#preview-message');
 
     // Toolbar
     const preview = document.querySelector('#preview');
