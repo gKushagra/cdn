@@ -42,3 +42,26 @@ export const libSSO = {
         }
     }
 }
+
+export const sso = {
+    errors: {
+        unauthorized: function () {
+            return new Promise((resolve, reject) => reject(new Error('Unauthorized')));
+        }
+    },
+    tokens: {
+        save: (key, value) => localStorage.setItem(key, value),
+        get: (key) => localStorage.getItem(key),
+        remove: (key) => localStorage.removeItem(key)
+    },
+    api: {
+        get: function (key, uri) {
+            if (!sso.tokens.get(key)) { return sso.errors.unauthorized() }
+            return fetch(uri, { headers: { 'Authorization': `Bearer ${sso.tokens.get(key)}` } });
+        }
+    },
+    logout: function (keys, redirectUri) {
+        keys.forEach(key => this.tokens.remove(key));
+        window.location.href = redirectUri;
+    }
+};
