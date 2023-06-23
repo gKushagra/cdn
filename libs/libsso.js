@@ -58,7 +58,10 @@ export const sso = {
         get: function (key, uri) {
             if (!sso.tokens.get(key)) { return sso.errors.unauthorized() }
             return fetch(uri, { headers: { 'Authorization': `Bearer ${sso.tokens.get(key)}` } })
-                .catch((error) => { throw new Error(error); });
+                .then((res) => {
+                    if (res.status === 401) { throw new Error('Unauthorized'); }
+                    else { return res; }
+                });
         }
     },
     logout: function (keys, redirectUri) {
